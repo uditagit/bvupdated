@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridalVision · visualize your dream dress</title>
+    <!-- Fonts: Libre Baskerville (headings) & Lexend (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome for store logos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #C3DFEC;           /* soft blue for section backgrounds */
+            --primary-light: #d4e9f2;
+            --white: #FFFFFF;
+            --black: #1e2b37;              /* dark blue text */
+            --bg-light: #f8fafc;
+            --text-dark: #1e2b37;
+            --text-muted: #4a5f6e;
+            --border-light: rgba(0,0,0,0.05);
+            --shadow-sm: 0 4px 20px rgba(0,0,0,0.03);
+            --shadow-hover: 0 20px 30px -10px rgba(195,223,236,0.3);
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background: var(--white);
+            position: relative;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Libre Baskerville', serif;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* elegant button styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.9rem 2.2rem;
+            background: transparent;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+            text-decoration: none;
+            border: 1.5px solid var(--primary);
+            border-radius: 40px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background-color: transparent;
+            line-height: 1.2;
+        }
+
+        .btn i {
+            font-size: 1.2rem;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--primary);
+            color: var(--black);
+            border-color: var(--primary);
+            box-shadow: 0 12px 24px -10px rgba(195,223,236,0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn:hover i {
+            transform: scale(1.05);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--black);
+            border: 1.5px solid var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--text-dark);
+        }
+
+        /* store buttons with logos - light blue border, dark blue on hover */
+        .btn-store {
+            padding: 0.8rem 2rem;
+            background: var(--white);
+            border: 1.5px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .btn-store i {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+        }
+
+        .btn-store:hover {
+            background: var(--white);
+            border-color: var(--black);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* logo styling */
+        .logo {
+            display: block;
+            max-width: 320px;
+            width: 100%;
+            height: auto;
+            margin: 0 auto 2rem auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                max-width: 240px;
+            }
+        }
+
+        /* HERO SECTION WITH BACKGROUND IMAGE */
+        .hero {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+            padding: 6rem 24px;
+            text-align: center;
+            color: white;
+            isolation: isolate;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('enter-background-image-link-here.jpg'); /* REPLACE WITH YOUR BACKGROUND IMAGE */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        /* Top right contact button - now positioned absolutely within hero, scrolls with page */
+        .hero .contact-corner {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10;
+        }
+
+        .hero .btn-contact-corner {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 2rem;
+            background: var(--primary);        /* Blue background by default */
+            color: var(--black);                /* Black text */
+            font-family: 'Libre Baskerville', serif;
+            font-weight: 300;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            border: 1px solid var(--primary);
+            border-radius: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .hero .btn-contact-corner:hover {
+            background: var(--white);           /* White on hover */
+            color: var(--black);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: var(--white);
+        }
+
+        .hero .tagline {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            font-family: 'Libre Baskerville', serif;  /* Heading font */
+            font-style: italic;                         /* Italic */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* section styles */
+        .section {
+            padding: 5rem 24px;
+        }
+
+        /* Light blue section backgrounds for Boutiques and Brides */
+        .section-blue {
+            background: var(--primary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        .section-title-underline {
+            width: 100px;
+            height: 2px;
+            background: var(--white);
+            margin: 1rem auto 1.5rem;
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* about section */
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .about-text strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Dark blue "BridalVision" in about text */
+        .brand-highlight {
+            color: var(--black);
+            font-weight: 600;
+        }
+
+        /* cards grid - WHITE cards with DARK TEXT on light blue background */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: var(--black);
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-card .icon {
+            color: var(--black);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--black);
+            font-weight: 400;
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        .feature-card p {
+            color: var(--black);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        /* screenshots */
+        .screenshots-grid {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .screenshot {
+            width: 220px;
+            height: 440px;
+            background: linear-gradient(145deg, #eef2f6, #ffffff);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.05);
+        }
+
+        .screenshot:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 40px -15px rgba(195,223,236,0.4);
+            border-color: var(--primary);
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .screenshot.center {
+            transform: scale(1.05);
+            border: 2px solid var(--primary);
+            box-shadow: 0 20px 30px -10px rgba(195,223,236,0.3);
+        }
+
+        .screenshot.center:hover {
+            transform: translateY(-10px) scale(1.07);
+        }
+
+        /* contact section */
+        .contact-section {
+            background: var(--bg-light);
+            padding: 5rem 24px;
+            text-align: center;
+        }
+
+        /* footer */
+        footer {
+            background: var(--primary);
+            color: var(--black);
+            padding: 3rem 24px 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--black);
+            text-decoration: none;
+            transition: opacity 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+
+        .footer-links span {
+            color: var(--text-muted);
+        }
+
+        .footer-copyright {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* legal pages styling */
+        .legal-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 24px;
+        }
+
+        .legal-page h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        .legal-page h2 {
+            font-size: 1.8rem;
+            margin: 3rem 0 1rem;
+            font-family: 'Libre Baskerville', serif;
+        }
+
+        .legal-page p, .legal-page li {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .legal-page ul {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--black);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border 0.2s;
+        }
+
+        .back-link:hover {
+            border-bottom-color: var(--black);
+        }
+
+        /* Page navigation */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* utility */
+        .text-center { text-align: center; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+
+        /* responsive */
+        @media (max-width: 768px) {
+            .hero .tagline { font-size: 1.6rem; }
+            .hero .contact-corner {
+                top: 1rem;
+                right: 1rem;
+            }
+            .hero .btn-contact-corner {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .section-title { font-size: 2.2rem; }
+            .about-text { font-size: 1rem; }
+            .cards-grid { gap: 1.5rem; }
+            .screenshot { width: 180px; height: 360px; }
+            .btn { padding: 0.8rem 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HOME PAGE -->
+<div id="home-page" class="page active">
+    <!-- HERO SECTION WITH BACKGROUND IMAGE -->
+    <section class="hero">
+        <!-- Top right contact button - now inside hero, scrolls with page -->
+        <div class="contact-corner">
+            <a href="contact.html" class="btn-contact-corner">Contact Us</a>
+        </div>
+        
+        <img src="logo.svg" alt="BridalVision Logo" class="logo">
+        <p class="tagline">Visualize Your Dream Dress</p>
+        <!-- The duplicate button below logo has been removed -->
+    </section>
+
+    <!-- About Section - with dark blue BridalVision -->
+    <section class="section">
+        <div class="container">
+            <p class="about-text">
+                <span class="brand-highlight">BridalVision</span> is an innovative AI-powered platform designed
+                to transform the way you envision dress alterations. Whether you're a boutique professional seeking
+                to enhance client consultations or a bride exploring possibilities for your perfect gown,
+                <span class="brand-highlight">BridalVision</span> brings your ideas to life with stunning visual clarity. Experience the future of bridal
+                customization with intelligent technology that understands your vision.
+            </p>
+        </div>
+    </section>
+
+    <!-- For Boutiques Section - LIGHT BLUE BACKGROUND, WHITE CARDS -->
+    <section class="section section-blue">
+        <div class="container">
+            <h2 class="section-title" style="color: var(--black);">For Boutiques</h2>
+            <div class="section-title-underline" style="background: var(--black);"></div>
+            <p class="section-subtitle" style="color: var(--black);">Elevate your client experience with cutting-edge visualization</p>
+
+            <div class="cards-grid">
+                <div class="feature-card">
+                    <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 22v-4M4 12H2h2M20 12h2-2M6 6L4 4l2 2M18 18l2 2-2-2M6 18l-2 2 2-2M18 6l2-2-2 2"/><circle cx="12" cy="12" r="4"/></svg></div>
+                    <h3>Enhanced Consultations</h3>
+                    <p>Transform client meetings with instant visual representations that bring ideas to life, creating memorable experiences that set your boutique apart.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <h3>Streamlined Process</h3>
+                    <p>Reduce consultation time while increasing client confidence, allowing you to serve more clients with greater efficiency and satisfaction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <h3>Increased Satisfaction</h3>
+                    <p>Help clients visualize their dream dress before committing, leading to happier brides and stronger business relationships.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- For Brides Section - LIGHT BLUE BACKGROUND, WHITE CARDS -->
+    <section class="section section-blue">
+        <div class="container">
+            <h2 class="section-title" style="color: var(--black);">For Brides</h2>
+            <div class="section-title-underline" style="background: var(--black);"></div>
+            <p class="section-subtitle" style="color: var(--black);">Your perfect dress, visualized before alterations</p>
+
+            <div class="cards-grid">
+                <div class="feature-card">
+                    <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <h3>Confident Decisions</h3>
+                    <p>See your alterations come to life before making any commitments, ensuring every choice reflects your unique vision with clarity and confidence.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                    <h3>Explore Possibilities</h3>
+                    <p>Save and compare various alteration ideas to discover the perfect combination that makes your dress truly yours.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h3>Seamless Collaboration</h3>
+                    <p>Work effortlessly with your boutique to refine every detail, ensuring your vision is perfectly communicated and beautifully realized.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience BridalVision Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Experience BridalVision</h2>
+            <div class="section-title-underline" style="background: var(--primary);"></div>
+            <p class="section-subtitle">Transform your vision into reality with AI-powered precision</p>
+
+            <div class="screenshots-grid">
+                <div class="screenshot">
+                    <img src="enter-screenshot-1-link.jpg" alt="App Screenshot 1">
+                </div>
+                <div class="screenshot center">
+                    <img src="enter-screenshot-2-link.jpg" alt="App Screenshot 2">
+                </div>
+                <div class="screenshot">
+                    <img src="enter-screenshot-3-link.jpg" alt="App Screenshot 3">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="section">
+        <div class="container text-center">
+            <h2 class="section-title">Download Now</h2>
+            <div class="section-title-underline" style="background: var(--primary);"></div>
+            <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                <a href="https://apps.apple.com/us/app/bridalvision/id6756514522" target="_blank" rel="noopener noreferrer" class="btn btn-store">
+                    <i class="fab fa-apple"></i> App Store
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=bridalvision.app.bridalvisionapp" target="_blank" rel="noopener noreferrer" class="btn btn-store">
+                    <i class="fab fa-google-play"></i> Google Play
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Questions? Get in Touch</h2>
+            <div class="section-title-underline" style="background: var(--primary);"></div>
+            <p style="margin-bottom: 2.5rem; font-size: 1.2rem; color: var(--text-muted);">We're here to help you bring your vision to life</p>
+            <a href="contact.html" class="btn btn-primary">Contact Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#" onclick="showPage('privacy'); return false;">Privacy Policy</a>
+                <span>|</span>
+                <a href="#" onclick="showPage('terms'); return false;">Terms & Conditions</a>
+                <span>|</span>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            <p class="footer-copyright">© 2025 BridalVision LLC. All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+
+<!-- PRIVACY POLICY PAGE -->
+<div id="privacy-page" class="page">
+    <div class="legal-page">
+        <a href="#" onclick="showPage('home'); return false;" class="back-link">← Back to Home</a>
+        <h1>Privacy Policy</h1>
+        <p><strong>Effective Date:</strong> November 4, 2025</p>
+        <p><strong>Last Updated:</strong> November 4, 2025</p>
+
+        <h2>1. Introduction</h2>
+        <p>Welcome to BridalVision. BridalVision LLC ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and services.</p>
+
+        <h2>2. Information We Collect</h2>
+        <p>We may collect the following types of information:</p>
+        <ul>
+            <li><strong>Personal Information:</strong> Name, email address, phone number, and payment information when you create an account or make purchases.</li>
+            <li><strong>Images:</strong> Photos of dresses that you upload to use our AI visualization features.</li>
+            <li><strong>Usage Data:</strong> Information about how you interact with our app, including features used, time spent, and preferences.</li>
+            <li><strong>Device Information:</strong> Device type, operating system, unique device identifiers, and mobile network information.</li>
+            <li><strong>Location Data:</strong> Approximate location based on IP address (we do not collect precise GPS location).</li>
+        </ul>
+
+        <h2>3. How We Use Your Information</h2>
+        <p>We use the collected information for the following purposes:</p>
+        <ul>
+            <li>To provide and maintain our AI-powered dress visualization services</li>
+            <li>To process your transactions and manage your account</li>
+            <li>To improve our app features and user experience</li>
+            <li>To communicate with you about updates, promotions, and customer support</li>
+            <li>To analyze usage patterns and optimize our services</li>
+            <li>To comply with legal obligations and protect our rights</li>
+        </ul>
+
+        <h2>4. How We Share Your Information</h2>
+        <p>We do not sell your personal information. We may share your information in the following circumstances:</p>
+        <ul>
+            <li><strong>Service Providers:</strong> Third-party companies that help us operate our app and provide services (e.g., cloud storage, payment processing, AI processing)</li>
+            <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets</li>
+            <li><strong>Legal Requirements:</strong> When required by law or to protect our rights and safety</li>
+            <li><strong>With Your Consent:</strong> When you explicitly authorize us to share information</li>
+        </ul>
+
+        <h2>5. Data Security</h2>
+        <p>We implement appropriate technical and organizational measures to protect your information. However, no method of transmission over the internet or electronic storage is completely secure, and we cannot guarantee absolute security.</p>
+
+        <h2>6. Your Rights and Choices</h2>
+        <p>You have the following rights regarding your information:</p>
+        <ul>
+            <li><strong>Access:</strong> Request access to the personal information we hold about you</li>
+            <li><strong>Correction:</strong> Request correction of inaccurate information</li>
+            <li><strong>Deletion:</strong> Request deletion of your personal information</li>
+            <li><strong>Opt-Out:</strong> Unsubscribe from marketing communications</li>
+            <li><strong>Data Portability:</strong> Request a copy of your data in a portable format</li>
+        </ul>
+
+        <h2>7. Children's Privacy</h2>
+        <p>Our services are not intended for users under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have collected information from a child under 13, we will take steps to delete such information.</p>
+
+        <h2>8. International Data Transfers</h2>
+        <p>Your information may be transferred to and processed in countries other than your country of residence. We ensure appropriate safeguards are in place to protect your information in accordance with this Privacy Policy.</p>
+
+        <h2>9. Changes to This Privacy Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.</p>
+
+        <h2>10. Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+        <p><strong>BridalVision LLC</strong><br>Email: info@bridalvisionapp.com</p>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#" onclick="showPage('home'); return false;">Home</a>
+                <span>|</span>
+                <a href="#" onclick="showPage('terms'); return false;">Terms & Conditions</a>
+                <span>|</span>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            <p class="footer-copyright">© 2025 BridalVision LLC. All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+
+<!-- TERMS & CONDITIONS PAGE -->
+<div id="terms-page" class="page">
+    <div class="legal-page">
+        <a href="#" onclick="showPage('home'); return false;" class="back-link">← Back to Home</a>
+        <h1>Terms & Conditions</h1>
+        <p><strong>Effective Date:</strong> November 4, 2025</p>
+        <p><strong>Last Updated:</strong> November 4, 2025</p>
+
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing or using the BridalVision mobile application and services ("Services"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree to these Terms, do not use our Services.</p>
+
+        <h2>2. Description of Services</h2>
+        <p>BridalVision provides an AI-powered platform that allows users to visualize custom dress alterations. Our Services include image processing, visualization tools, and related features designed for both individual users and boutique professionals.</p>
+
+        <h2>3. User Accounts</h2>
+        <p>To use certain features of our Services, you must create an account. You agree to:</p>
+        <ul>
+            <li>Provide accurate, current, and complete information</li>
+            <li>Maintain the security of your account credentials</li>
+            <li>Notify us immediately of any unauthorized use of your account</li>
+            <li>Be responsible for all activities that occur under your account</li>
+        </ul>
+
+        <h2>4. User Content and Intellectual Property</h2>
+        <p><strong>Your Content:</strong> You retain ownership of any images or content you upload to our Services. By uploading content, you grant us a limited license to use, process, and display your content solely for the purpose of providing our Services.</p>
+        <p><strong>Our Content:</strong> All content, features, and functionality of our Services, including but not limited to text, graphics, logos, and software, are owned by BridalVision LLC and protected by intellectual property laws.</p>
+
+        <h2>5. Acceptable Use</h2>
+        <p>You agree not to:</p>
+        <ul>
+            <li>Use our Services for any illegal purpose or in violation of any laws</li>
+            <li>Upload content that infringes on intellectual property rights</li>
+            <li>Attempt to gain unauthorized access to our systems or networks</li>
+            <li>Interfere with or disrupt the Services or servers</li>
+            <li>Use automated systems to access the Services without permission</li>
+            <li>Impersonate any person or entity or misrepresent your affiliation</li>
+        </ul>
+
+        <h2>6. AI-Generated Visualizations</h2>
+        <p>Our AI-powered visualization features are provided for informational and planning purposes only. The visualizations are artistic representations and may not perfectly reflect the final result of actual dress alterations. BridalVision LLC is not responsible for any differences between visualizations and actual alterations performed by third parties.</p>
+
+        <h2>7. Payment and Subscriptions</h2>
+        <p>Certain features of our Services may require payment. By making a purchase, you agree to:</p>
+        <ul>
+            <li>Provide accurate payment information</li>
+            <li>Pay all fees and applicable taxes</li>
+            <li>Comply with our refund and cancellation policies</li>
+        </ul>
+        <p>Subscription fees are charged in advance and are non-refundable except as required by law.</p>
+
+        <h2>8. Disclaimers and Limitation of Liability</h2>
+        <p><strong>Disclaimers:</strong> Our Services are provided "as is" and "as available" without warranties of any kind, either express or implied. We do not guarantee that our Services will be uninterrupted, error-free, or secure.</p>
+        <p><strong>Limitation of Liability:</strong> To the maximum extent permitted by law, BridalVision LLC shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of our Services.</p>
+
+        <h2>9. Indemnification</h2>
+        <p>You agree to indemnify and hold harmless BridalVision LLC and its officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses arising out of your use of our Services or violation of these Terms.</p>
+
+        <h2>10. Termination</h2>
+        <p>We reserve the right to suspend or terminate your account and access to our Services at any time, with or without notice, for any reason, including violation of these Terms.</p>
+
+        <h2>11. Governing Law and Dispute Resolution</h2>
+        <p>These Terms shall be governed by and construed in accordance with the laws of the United States, without regard to conflict of law principles. Any disputes arising from these Terms or your use of our Services shall be resolved through binding arbitration.</p>
+
+        <h2>12. Changes to Terms</h2>
+        <p>We may modify these Terms at any time. We will notify you of material changes by posting the updated Terms on our app and updating the "Last Updated" date. Your continued use of our Services after changes constitutes acceptance of the modified Terms.</p>
+
+        <h2>13. Contact Information</h2>
+        <p>If you have any questions about these Terms, please contact us at:</p>
+        <p><strong>BridalVision LLC</strong><br>Email: info@bridalvisionapp.com</p>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#" onclick="showPage('home'); return false;">Home</a>
+                <span>|</span>
+                <a href="#" onclick="showPage('privacy'); return false;">Privacy Policy</a>
+                <span>|</span>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            <p class="footer-copyright">© 2025 BridalVision LLC. All rights reserved.</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+    function pathToPage() {
+        var p = (window.location.pathname || '/').replace(/\/$/, '') || '/';
+        return 'home';
+    }
+
+    function showPage(pageId, push) {
+        var pages = document.querySelectorAll('.page');
+        pages.forEach(function (page) { page.classList.remove('active'); });
+        var targetPage = document.getElementById(pageId + '-page');
+        if (targetPage) {
+            targetPage.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+        showPage('home', false);
+    });
+</script>
+
+</body>
+</html>
