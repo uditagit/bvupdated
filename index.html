@@ -74,7 +74,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
             line-height: 1.2;
-            min-height: 48px; /* better touch target */
+            min-height: 48px;
         }
 
         .btn i {
@@ -137,19 +137,23 @@
             z-index: 2;
         }
 
-        /* HERO SECTION */
+        /* HERO SECTION – full viewport, no extra scroll */
         .hero {
             position: relative;
+            width: 100%;
+            height: 100vh;               /* exactly viewport height */
+            max-height: 100vh;            /* prevent overflow */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 90vh;
-            padding: 6rem 24px;
+            padding: 2rem;
             text-align: center;
             color: white;
             isolation: isolate;
             margin: 0;
+            background-color: var(--primary); /* fallback */
+            overflow: hidden;              /* hide any accidental overflow */
         }
 
         .hero::before {
@@ -159,11 +163,23 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('finalbackground.jpg');
+            background-image: url('finalbackground.jpg'); /* replace with your image */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             z-index: -2;
+        }
+
+        /* subtle overlay for better text contrast – adjust as needed */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: -1;
         }
 
         .hero .contact-corner {
@@ -203,7 +219,7 @@
         .hero .tagline {
             font-size: 2.2rem;
             color: #3B5377;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;        /* reduced to fit better */
             font-weight: 400;
             font-family: 'Libre Baskerville', serif;
             font-style: italic;
@@ -263,12 +279,12 @@
             font-weight: 600;
         }
 
-        /* special class for unbolded second occurrence */
         .brand-highlight-normal {
             color: var(--black);
             font-weight: 400;
         }
 
+        /* cards grid */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -301,6 +317,8 @@
         .feature-card h3 {
             font-size: 1.8rem;
             margin-bottom: 1rem;
+            color: var(--black);
+            font-weight: 400;
             font-family: 'Libre Baskerville', serif;
         }
 
@@ -311,6 +329,7 @@
             opacity: 0.9;
         }
 
+        /* screenshots */
         .screenshots-grid {
             display: flex;
             flex-direction: row;
@@ -359,12 +378,14 @@
             transform: translateY(-10px) scale(1.07);
         }
 
+        /* contact section */
         .contact-section {
             background: var(--bg-light);
             padding: 5rem 24px;
             text-align: center;
         }
 
+        /* footer */
         footer {
             background: var(--primary);
             color: var(--black);
@@ -402,6 +423,7 @@
             color: var(--text-muted);
         }
 
+        /* legal pages styling */
         .legal-page {
             max-width: 900px;
             margin: 0 auto;
@@ -443,6 +465,7 @@
             border-bottom-color: var(--black);
         }
 
+        /* Page navigation */
         .page {
             display: none;
         }
@@ -451,20 +474,18 @@
             display: block;
         }
 
+        /* utility */
         .text-center { text-align: center; }
         .mx-auto { margin-left: auto; margin-right: auto; }
 
         /* ===== MOBILE OPTIMIZATIONS ===== */
         @media (max-width: 768px) {
             .hero {
-                min-height: 70vh;
-                padding: 5rem 24px;
-            }
-            .hero::before {
-                background-position: center 30%;
+                padding: 1.5rem;          /* reduce padding on smaller screens */
             }
             .hero .tagline {
                 font-size: 1.8rem;
+                margin-bottom: 1rem;
             }
             .hero .contact-corner {
                 top: 1rem;
@@ -473,6 +494,9 @@
             .hero .btn-contact-corner {
                 padding: 0.6rem 1.5rem;
                 font-size: 0.9rem;
+            }
+            .logo {
+                max-width: 240px;
             }
             .section-title {
                 font-size: 2.2rem;
@@ -497,18 +521,15 @@
 
         @media (max-width: 480px) {
             .hero {
-                min-height: 60vh;
-                padding: 4rem 16px;
-            }
-            .hero::before {
-                background-position: center 30%;
+                padding: 1rem;
             }
             .hero .tagline {
                 font-size: 1.5rem;
-                margin-bottom: 1.5rem;
+                margin-bottom: 0.75rem;
             }
             .logo {
                 max-width: 200px;
+                margin-bottom: 1rem;
             }
             .hero .contact-corner {
                 top: 0.8rem;
@@ -568,6 +589,7 @@
         <p class="tagline">Visualize Your Dream Dress</p>
     </section>
 
+    <!-- About Section -->
     <section class="section">
         <div class="container">
             <p class="about-text">
@@ -580,6 +602,7 @@
         </div>
     </section>
 
+    <!-- For Boutiques Section -->
     <section class="section section-blue">
         <div class="container">
             <h2 class="section-title" style="color: var(--black);">For Boutiques</h2>
@@ -605,6 +628,7 @@
         </div>
     </section>
 
+    <!-- For Brides Section -->
     <section class="section section-blue">
         <div class="container">
             <h2 class="section-title" style="color: var(--black);">For Brides</h2>
@@ -630,6 +654,7 @@
         </div>
     </section>
 
+    <!-- Experience BridalVision Section -->
     <section class="section">
         <div class="container">
             <h2 class="section-title">Experience BridalVision</h2>
@@ -649,6 +674,7 @@
         </div>
     </section>
 
+    <!-- Download Section -->
     <section class="section">
         <div class="container text-center">
             <h2 class="section-title">Download Now</h2>
@@ -664,6 +690,7 @@
         </div>
     </section>
 
+    <!-- Contact Section -->
     <section class="contact-section">
         <div class="container">
             <h2 class="section-title">Questions? Get in Touch</h2>
@@ -673,6 +700,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-links">
@@ -834,6 +862,7 @@
         var p = (window.location.pathname || '/').replace(/\/$/, '') || '/';
         return 'home';
     }
+
     function showPage(pageId, push) {
         var pages = document.querySelectorAll('.page');
         pages.forEach(function (page) { page.classList.remove('active'); });
@@ -843,6 +872,7 @@
             window.scrollTo(0, 0);
         }
     }
+
     window.addEventListener('DOMContentLoaded', function () {
         showPage('home', false);
     });
