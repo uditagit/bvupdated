@@ -137,12 +137,12 @@
             z-index: 2;
         }
 
-        /* HERO SECTION – full viewport, no extra scroll */
+        /* HERO SECTION – full viewport, no extra scroll, no overlay */
         .hero {
             position: relative;
             width: 100%;
-            height: 100vh;               /* exactly viewport height */
-            max-height: 100vh;            /* prevent overflow */
+            height: 100vh;
+            max-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -152,8 +152,8 @@
             color: white;
             isolation: isolate;
             margin: 0;
-            background-color: var(--primary); /* fallback */
-            overflow: hidden;              /* hide any accidental overflow */
+            background-color: var(--primary);
+            overflow: hidden;
         }
 
         .hero::before {
@@ -170,17 +170,7 @@
             z-index: -2;
         }
 
-        /* subtle overlay for better text contrast – adjust as needed */
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            z-index: -1;
-        }
+        /* overlay completely removed – image is at full brightness */
 
         .hero .contact-corner {
             position: absolute;
@@ -219,7 +209,7 @@
         .hero .tagline {
             font-size: 2.2rem;
             color: #3B5377;
-            margin-bottom: 1.5rem;        /* reduced to fit better */
+            margin-bottom: 1.5rem;
             font-weight: 400;
             font-family: 'Libre Baskerville', serif;
             font-style: italic;
@@ -481,7 +471,7 @@
         /* ===== MOBILE OPTIMIZATIONS ===== */
         @media (max-width: 768px) {
             .hero {
-                padding: 1.5rem;          /* reduce padding on smaller screens */
+                padding: 1.5rem;
             }
             .hero .tagline {
                 font-size: 1.8rem;
